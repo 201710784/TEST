@@ -2,6 +2,8 @@ const fs = require("fs");
 const { Client } = require("@notionhq/client");
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
+console.log(Object.keys(notion));
+console.log(notion);
 const databaseId = process.env.NOTION_DATABASE_ID;
 
 const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
