@@ -1,4 +1,4 @@
-Fconst fs = require("fs");
+const fs = require("fs");
 const { Client } = require("@notionhq/client");
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
