@@ -90,6 +90,30 @@ async function main() {
         },
       ],
     },
+	작성자: {
+	rich_text: [
+		{
+		text: {
+			content: item.user?.login || "",
+		},
+		},
+	],
+	},
+	라벨: {
+	multi_select: (item.labels || []).map(label => ({
+		name: label.name,
+	})),
+	},
+	"Created At": {
+	date: item.created_at
+		? { start: item.created_at }
+		: null,
+	},
+	"Updated At": {
+	date: item.updated_at
+		? { start: item.updated_at }
+		: null,
+	},
   };
 
   const existing = await findExistingPage(githubId);
