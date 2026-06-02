@@ -114,6 +114,9 @@ async function main() {
 		? { start: item.updated_at }
 		: null,
 	},
+	댓글수: {
+	number: item.comments || 0,
+	},
   };
 
   const existing = await findExistingPage(githubId);
