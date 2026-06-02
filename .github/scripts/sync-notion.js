@@ -77,6 +77,13 @@ async function findExistingPage(githubId) {
 
 async function createCommitRecord() {
   const commit = event.head_commit;
+  
+  //Files Changed column 추가
+  const filesChanged = [
+	...(commit.added || []).map(file => `+ ${file}`),
+	...(commit.modified || []).map(file => `~ ${file}`),
+	...(commit.removed || []).map(file => `- ${file}`),
+  ].join("\n");
 
   await notion.pages.create({
     parent: {
@@ -149,6 +156,16 @@ async function createCommitRecord() {
           start: commit.timestamp,
         },
       },
+	  
+	  "Files Changed": {
+	  rich_text: [
+		  {
+		  text: {
+			  content: filesChanged || "No file changes",
+		    },
+		  },
+	    ],
+	  },
     },
   });
 }
