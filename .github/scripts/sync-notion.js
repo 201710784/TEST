@@ -1,9 +1,7 @@
-const fs = require("fs");
+Fconst fs = require("fs");
 const { Client } = require("@notionhq/client");
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
-console.log(Object.keys(notion));
-console.log(notion);
 const databaseId = process.env.NOTION_DATABASE_ID;
 
 const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
@@ -35,8 +33,8 @@ function getItem() {
 }
 
 async function findExistingPage(githubId) {
-  const result = await notion.databases.query({
-    database_id: databaseId,
+  const result = await notion.dataSources.query({
+    data_source_id: databaseId,
     filter: {
       property: "GitHub ID",
       rich_text: {
