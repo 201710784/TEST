@@ -97,12 +97,14 @@ async function fetchCommitDetail(sha) {
 }
 
 async function createCommitRecord() {
+
 const commit = event.head_commit;
 const commitDetail = await fetchCommitDetail(commit.id);
 
 const filesChanged = (commitDetail.files || [])
   .map(file => `${file.status} ${file.filename}`)
   .join("\n");
+
 
   await notion.pages.create({
     parent: {
