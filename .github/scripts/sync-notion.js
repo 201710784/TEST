@@ -33,15 +33,15 @@ function getItem() {
 }
 
 async function findExistingPage(githubId) {
-  const result = await notion.dataSources.query({
-    data_source_id: databaseId,
-    filter: {
-      property: "GitHub ID",
-      rich_text: {
-        equals: githubId,
-      },
-    },
-  });
+	const result = await notion.databases.query({
+	database_id: databaseId,
+	filter: {
+		property: "GitHub ID",
+		rich_text: {
+		equals: githubId,
+		},
+	},
+	});
 
   return result.results[0];
 }

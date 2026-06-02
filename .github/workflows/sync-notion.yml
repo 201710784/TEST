@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install @notionhq/client
+      - run: npm install @notionhq/client@2.2.15
 
       - name: Sync to Notion
         env:
