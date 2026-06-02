@@ -75,7 +75,7 @@ async function findExistingPage(githubId) {
   return result.results[0];
 }
 
-/*commit 상세 조회 함수 추가
+//commit 상세 조회 함수 추가
 async function fetchCommitDetail(sha) {
   const [owner, repoName] = repo.split("/");
 
@@ -95,16 +95,14 @@ async function fetchCommitDetail(sha) {
 
   return response.json();
 }
-*/
 
 async function createCommitRecord() {
-  const commit = event.head_commit;
-  
-  const filesChanged = [
-	...(commit.added || []).map(file => `+ ${file}`),
-	...(commit.modified || []).map(file => `~ ${file}`),
-	...(commit.removed || []).map(file => `- ${file}`),
-  ].join("\n");
+const commit = event.head_commit;
+const commitDetail = await fetchCommitDetail(commit.id);
+
+const filesChanged = (commitDetail.files || [])
+  .map(file => `${file.status} ${file.filename}`)
+  .join("\n");
 
   await notion.pages.create({
     parent: {
