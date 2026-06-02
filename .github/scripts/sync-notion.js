@@ -41,6 +41,26 @@ function getItem() {
   throw new Error(`Unsupported event: ${eventName}`);
 }
 
+async function fetchFreshIssue(number) {
+  const [owner, repoName] = repo.split("/");
+
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repoName}/issues/${number}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Accept: "application/vnd.github+json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`GitHub API failed: ${response.status} ${await response.text()}`);
+  }
+
+  return response.json();
+}
+
 async function findExistingPage(githubId) {
 	const result = await notion.databases.query({
 	database_id: databaseId,
@@ -56,7 +76,12 @@ async function findExistingPage(githubId) {
 }
 
 async function main() {
-  const { type, item, githubId, state } = getItem();
+  let { type, item, githubId, state } = getItem();
+  
+  if (eventName === "issue_comment") {
+  item = await fetchFreshIssue(item.number);
+  state = item.state;
+  }
 
   const properties = {
     이름: {
