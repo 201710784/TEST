@@ -75,14 +75,98 @@ async function findExistingPage(githubId) {
   return result.results[0];
 }
 
+async function createCommitRecord() {
+  const commit = event.head_commit;
+
+  await notion.pages.create({
+    parent: {
+      database_id: process.env.NOTION_COMMITS_DATABASE_ID,
+    },
+
+    properties: {
+      "Commit Message": {
+        title: [
+          {
+            text: {
+              content: commit.message.split("\n")[0],
+            },
+          },
+        ],
+      },
+
+      SHA: {
+        rich_text: [
+          {
+            text: {
+              content: commit.id,
+            },
+          },
+        ],
+      },
+
+      Repo: {
+        rich_text: [
+          {
+            text: {
+              content: repo,
+            },
+          },
+        ],
+      },
+
+      Branch: {
+        rich_text: [
+          {
+            text: {
+              content: event.ref.replace(
+                "refs/heads/",
+                ""
+              ),
+            },
+          },
+        ],
+      },
+
+      작성자: {
+        rich_text: [
+          {
+            text: {
+              content:
+                commit.author?.username ||
+                commit.author?.name ||
+                "",
+            },
+          },
+        ],
+      },
+
+      URL: {
+        url: commit.url,
+      },
+
+      Timestamp: {
+        date: {
+          start: commit.timestamp,
+        },
+      },
+    },
+  });
+}
+
 async function main() {
+
+  if (eventName === "push") {
+  await createCommitRecord();
+  return;
+  }
+
   let { type, item, githubId, state } = getItem();
   
   if (eventName === "issue_comment") {
   item = await fetchFreshIssue(item.number);
   state = item.state;
   }
-
+  
   const properties = {
     이름: {
       title: [

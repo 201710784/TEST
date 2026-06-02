@@ -8,6 +8,9 @@ on:
   pull_request:
     types: [opened, edited, closed, reopened, ready_for_review, labeled, unlabeled]
 
+##commits DB 연동을 위해 추가
+push:
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -25,8 +28,11 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          ##Commits DB 연동을 위해 추가
+          NOTION_COMMITS_DATABASE_ID: ${{ secrets.NOTION_COMMITS_DATABASE_ID }}
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           ##댓글 수 최신화하여 반영
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
         run: node .github/scripts/sync-notion.js
