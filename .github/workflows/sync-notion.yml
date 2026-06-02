@@ -7,9 +7,8 @@ on:
     types: [created, edited, deleted]
   pull_request:
     types: [opened, edited, closed, reopened, ready_for_review, labeled, unlabeled]
-
-##commits DB 연동을 위해 추가
-push:
+  ##commits DB 연동을 위해 추가
+  push:
 
 jobs:
   sync:
