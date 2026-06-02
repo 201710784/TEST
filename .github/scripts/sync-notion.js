@@ -18,6 +18,15 @@ function getItem() {
     };
   }
 
+  if (eventName === "issue_comment") {
+    return {
+      type: "Issue",
+      item: event.issue,
+      githubId: `issue:${repo}#${event.issue.number}`,
+      state: event.issue.state,
+    };
+  }
+
   if (eventName === "pull_request") {
     const pr = event.pull_request;
 
@@ -113,6 +122,12 @@ async function main() {
 	date: item.updated_at
 		? { start: item.updated_at }
 		: null,
+	},
+	댓글수: {
+	number: item.comments || 0,
+	},
+	"Number": {
+	number: item.number,
 	},
 	댓글수: {
 	number: item.comments || 0,

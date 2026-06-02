@@ -3,6 +3,8 @@ name: Sync GitHub to Notion
 on:
   issues:
     types: [opened, edited, closed, reopened]
+  issue_comment:
+    types: [created, edited, deleted]
   pull_request:
     types: [opened, edited, closed, reopened, ready_for_review]
 
