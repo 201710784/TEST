@@ -75,8 +75,36 @@ async function findExistingPage(githubId) {
   return result.results[0];
 }
 
+/*commit 상세 조회 함수 추가
+async function fetchCommitDetail(sha) {
+  const [owner, repoName] = repo.split("/");
+
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repoName}/commits/${sha}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Accept: "application/vnd.github+json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`GitHub Commit API failed: ${response.status} ${await response.text()}`);
+  }
+
+  return response.json();
+}
+*/
+
 async function createCommitRecord() {
   const commit = event.head_commit;
+  
+  const filesChanged = [
+	...(commit.added || []).map(file => `+ ${file}`),
+	...(commit.modified || []).map(file => `~ ${file}`),
+	...(commit.removed || []).map(file => `- ${file}`),
+  ].join("\n");
 
   await notion.pages.create({
     parent: {
@@ -149,6 +177,16 @@ async function createCommitRecord() {
           start: commit.timestamp,
         },
       },
+	  
+	  "Files Changed": {
+		rich_text: [
+		 {
+			text: {
+			 content: filesChanged || "No file changes",
+			},
+		 },
+		],
+	  },
     },
   });
 }
@@ -237,9 +275,6 @@ async function main() {
 	},
 	"Number": {
 	number: item.number,
-	},
-	댓글수: {
-	number: item.comments || 0,
 	},
   };
 
