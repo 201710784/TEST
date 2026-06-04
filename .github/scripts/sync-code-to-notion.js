@@ -7,7 +7,7 @@ const notion = new Client({
 });
 
 const PAGE_ID = process.env.NOTION_CODE_PAGE_ID;
-const TARGET_FILE = "docs/k8s-install.md";
+const TARGET_FILE = "docs/install.md";
 
 const RICH_TEXT_LIMIT = 1900;
 
