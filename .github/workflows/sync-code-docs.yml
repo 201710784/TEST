@@ -1,0 +1,32 @@
+name: Sync Code Docs to Notion
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/install.md"
+      - ".github/scripts/sync-code-to-notion.js"
+      - ".github/workflows/sync-code-docs.yml"
+
+jobs:
+  sync-code-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Notion SDK
+        run: npm install @notionhq/client@2.2.15
+
+      - name: Sync code document to Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_CODE_PAGE_ID: ${{ secrets.NOTION_CODE_PAGE_ID }}
+        run: node .github/scripts/sync-code-to-notion.js
