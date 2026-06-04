@@ -1,10 +1,14 @@
+update 확인 테스트용
+
+
+
 ================================================================
 
 Ubuntu 22 버전 설치 기준
 
 
 
-1\. K8S - 단일노드 : Master Node + Work Node 
+1\. K8S - 단일노드 : Master Node + Work Node
 
 2\. sotrage class (단일 NFS 서버)
 
@@ -420,9 +424,9 @@ helm install cert-manager jetstack/cert-manager \\
 
 &#x20; --set installCRDs=true
 
-&#x20; 
+&#x20;
 
-&#x20; 
+&#x20;
 
 ================================================
 
@@ -816,7 +820,7 @@ services:
 
 &#x20;     - DELETE\_IMAGES=true
 
-&#x20;    
+&#x20;
 
 \---------------------------------
 
