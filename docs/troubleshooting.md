@@ -1,4 +1,4 @@
 \## 트러블슈팅
 
-troubleshooting1
+troubleshooting2
 
