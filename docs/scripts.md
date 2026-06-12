@@ -1,4 +1,4 @@
 \## 활용 스크립트
 
-scripts
+scripts1
 

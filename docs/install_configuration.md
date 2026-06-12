@@ -1,6 +1,6 @@
 \## 설치구성
 
-install
+install1
 
-configuration
+configuration1
 
