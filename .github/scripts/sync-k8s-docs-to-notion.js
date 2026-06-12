@@ -174,7 +174,7 @@ async function createTargetPage(target, author, commitDate) {
           name: target.category,
         },
       },
-      작성자: {
+      편집자: {
         rich_text: [
           {
             text: {
@@ -183,7 +183,7 @@ async function createTargetPage(target, author, commitDate) {
           },
         ],
       },
-      작성일: {
+      등록일: {
         date: {
           start: commitDate,
         },
@@ -217,7 +217,7 @@ async function updateTargetPage(pageId, target, author) {
           name: target.category,
         },
       },
-      작성자: {
+      편집자: {
         rich_text: [
           {
             text: {
